@@ -102,9 +102,45 @@ function isPalindrome(dateStr) {
     return cleanDate === reverseDate;
 }
 // Tests pour isPalindrome
-console.log(isPalindrome("01/01/1010")); // true
+/* console.log(isPalindrome("01/01/1010")); // true
 console.log(isPalindrome("12/21/1221")); // true
 console.log(isPalindrome("31/12/2023")); // false
 console.log(isPalindrome("11/11/1111")); // true
 console.log(isPalindrome("00/00/0000")); // false (date invalide)
-console.log(isPalindrome("32/01/2020")); // false (jour invalide)
+console.log(isPalindrome("32/01/2020")); // false (jour invalide) */
+
+// Etape 3
+// Fonction pour formater une date en "DD/MM/YYYY"
+function formatDate(date) {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Les mois commencent à 0
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+}
+
+// Fonction pour obtenir le jour suivant
+function getNextDate(date) {
+    const nextDate = new Date(date);
+    nextDate.setDate(date.getDate() + 1); // Passe au jour suivant
+    return nextDate;
+}
+
+// Fonction principale pour trouver les prochaines dates palindromes
+// Fonction principale pour trouver les prochaines dates palindromes
+function getNextPalindromes(x) {
+    const result = [];
+    let currentDate = new Date();
+
+    while (result.length < x) {
+        const formattedDate = formatDate(currentDate);
+        if (isPalindrome(formattedDate)) {
+            result.push(formattedDate);
+        }
+        currentDate = getNextDate(currentDate);
+    }
+
+    return result;
+}
+
+// Exemple d'utilisation
+console.log(getNextPalindromes(5));
