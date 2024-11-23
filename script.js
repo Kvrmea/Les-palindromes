@@ -1,6 +1,6 @@
 // Etape 1
 // Fonction qui vérifie le nombre de jour dans les mois + bissextiles
-function maxDaysInMonth(month, year) {
+/* function maxDaysInMonth(month, year) {
     // Mois avec 31 jours
     if ([1, 3, 5, 7, 8, 10, 12].includes(month)) 
         return 31;
@@ -13,9 +13,9 @@ function maxDaysInMonth(month, year) {
     }
     return 0; // Mois invalide
 }
-
+*/
 // Fonction qui vérifie si la date est valide ou non
-function isValidDate(date) {
+/* function isValidDate(date) {
     const parts = date.split("/");
 
     // Vérifie si le format est bien "dd/mm/yyyy" ou "mm/dd/yyyy"
@@ -54,6 +54,8 @@ function isValidDate(date) {
         return false;
     }
 }
+*/
+
 // Tests
 /* console.log(isValidDate("03/04/2001")) // true
 console.log(isValidDate("03/14/2001")) // false (mois invalide)
@@ -87,7 +89,7 @@ console.log(isValidDate("00/01/2023")) // false (jour invalide)) */
 
 // Etape 2
 // Fonction qui vérifie si une date est un palindrome
-function isPalindrome(dateStr) {
+/* function isPalindrome(dateStr) {
     // Utilise la fonction isValidDate pour vérifier la validité de la date
     if (!isValidDate(dateStr)) {
         return false;
@@ -100,7 +102,9 @@ function isPalindrome(dateStr) {
     const reverseDate = cleanDate.split("").reverse().join("");
     console.log(cleanDate, reverseDate)
     return cleanDate === reverseDate;
-}
+} 
+*/
+
 // Tests pour isPalindrome
 /* console.log(isPalindrome("01/01/1010")); // true
 console.log(isPalindrome("12/21/1221")); // true
@@ -111,7 +115,7 @@ console.log(isPalindrome("32/01/2020")); // false (jour invalide) */
 
 // Etape 3
 // Fonction pour formater une date en "DD/MM/YYYY"
-function formatDate(date) {
+/* function formatDate(date) {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Les mois commencent à 0
     const year = date.getFullYear();
@@ -137,6 +141,48 @@ function getNextPalindromes(x) {
             result.push(formattedDate);
         }
         currentDate = getNextDate(currentDate);
+    }
+
+    return result;
+}
+*/
+
+// Exemple d'utilisation
+//console.log(getNextPalindromes(5));
+
+// Etape 4 
+// Fonction pour vérifier si une chaîne de caractères est un palindrome
+function isPalindrome(str) {
+    const cleanStr = str.replace(/[^a-zA-Z0-9]/g, ''); // Supprime les caractères non alphanumériques
+    return cleanStr === cleanStr.split('').reverse().join('');
+}
+
+// Fonction pour formater une date en "DDMMYYYY" (sans séparateurs)
+function formatDateForPalindrome(date) {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Les mois commencent à 0
+    const year = date.getFullYear();
+    return `${day}${month}${year}`;
+}
+
+// Fonction qui vérifie si une date est un palindrome
+function isDatePalindrome(date) {
+    // Transforme la date en chaîne utilisable pour le test de palindrome
+    const formattedDate = formatDateForPalindrome(date);
+    return isPalindrome(formattedDate);
+}
+
+// Fonction principale pour trouver les prochaines dates palindromes
+function getNextPalindromes(x) {
+    const result = [];
+    let currentDate = new Date(); // Aujourd'hui
+
+    // Trouver les x prochaines dates palindromes
+    while (result.length < x) {
+        if (isDatePalindrome(currentDate)) {
+            result.push(formatDateForPalindrome(currentDate).replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3')); // Reformate en "DD/MM/YYYY"
+        }
+        currentDate.setDate(currentDate.getDate() + 1); // Passe à la date suivante
     }
 
     return result;
